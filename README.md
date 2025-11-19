@@ -51,7 +51,7 @@ A clean, interactive dashboard with sections for:
 ### 🔹 Runs locally with one command:
 ```bash
 streamlit run app/app.py
-
+```
 ---
 
 ## 3. Project Architecture
