@@ -89,10 +89,8 @@ cd AI-Business-Insights-Platform
 python -m venv .venv
 ```
 
-#### Windows:
-```bash .venv\Scripts\activate ```
-#### macOS / Linux:
-```bash source .venv/bin/activate ```
+Windows:```bash .venv\Scripts\activate ```
+macOS / Linux:```bash source .venv/bin/activate ```
 
 ```bash pip install -r requirements.txt```
 
