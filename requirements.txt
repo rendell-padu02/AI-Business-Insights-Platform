@@ -1,0 +1,15 @@
+pandas
+numpy
+matplotlib
+seaborn
+prophet
+scikit-learn
+ydata-profiling
+plotly
+streamlit
+langchain
+openai
+python-dotenv
+pydantic
+fastapi
+uvicorn
