@@ -55,7 +55,7 @@ streamlit run app/app.py
 ---
 
 ## 3. Project Architecture
-
+```bash
 AI-Business-Insights-Platform/
 │
 ├── app/
@@ -76,7 +76,7 @@ AI-Business-Insights-Platform/
 │
 ├── requirements.txt
 └── README.md
-
+```
 ---
 
 ## 4. How to Run the Project
@@ -86,14 +86,15 @@ AI-Business-Insights-Platform/
 ```bash
 git clone https://github.com/rendell-padu02/AI-Business-Insights-Platform.git
 cd AI-Business-Insights-Platform
-
 python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS / Linux:
-source .venv/bin/activate
+```
 
-pip install -r requirements.txt
+# Windows:
+```bash .venv\Scripts\activate ```
+# macOS / Linux:
+```bash source .venv/bin/activate ```
+
+```bash pip install -r requirements.txt```
 
 #### 4.2 Prepare Data
 
@@ -101,16 +102,17 @@ Place the raw CSVs in data/raw/:
 superstore.csv
 Telco_customer_churn.csv
 
-Then run the cleaning script: python src/data_cleaning.py
+Then run the cleaning script: 
+```bash python src/data_cleaning.py ```
 
 This will create:
 - data/processed/superstore_clean.csv
 - data/processed/telco_churn_clean.csv
 
 #### 4.3 2.3 Run the Streamlit App
-- streamlit run app/app.py
+```bash streamlit run app/app.py ```
 Open the URL shown in the terminal:
-http://localhost:8501
+```bash http://localhost:8501 ```
 
 ---
 
@@ -124,7 +126,7 @@ For the Telco customer churn dataset, two supervised models were trained and com
 ### 5.1 Evaluation Metrics
 
 Using a hold-out test set (20% split, stratified by churn label):
-
+```bash
 | Metric        | Logistic Regression | Random Forest |
 |--------------|---------------------|---------------|
 | Accuracy     | **0.9120**          | 0.8928        |
@@ -132,6 +134,8 @@ Using a hold-out test set (20% split, stratified by churn label):
 | Recall       | **0.9385**          | 0.8636        |
 | F1-Score     | **0.8499**          | 0.8105        |
 | ROC-AUC      | **0.9746**          | 0.9446        |
+
+```
 
 **Interpretation (business-friendly):**
 
