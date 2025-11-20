@@ -13,3 +13,7 @@ python-dotenv
 pydantic
 fastapi
 uvicorn
+langchain
+langchain-openai
+langchain-experimental
+openai

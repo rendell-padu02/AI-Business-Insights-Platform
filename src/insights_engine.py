@@ -1,6 +1,7 @@
 import pandas as pd
 from prophet import Prophet
 
+
 # ============================================================
 # SUPERSTORE KPIs
 # ============================================================
@@ -71,6 +72,75 @@ def forecast_sales(df, periods=6):
 
     return forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]]
 
+
+# ============================================================
+# SUPERSTORE FORECASTING (PROPHET)
+# ============================================================
+
+from prophet import Prophet
+
+def prepare_forecast_data(df):
+    df = df.copy()
+    df["Order Date"] = pd.to_datetime(df["Order Date"], dayfirst=True, errors="coerce")
+    df = df.dropna(subset=["Order Date"])
+
+    # Aggregate monthly sales
+    df["month"] = df["Order Date"].dt.to_period("M")
+    monthly = df.groupby("month")["Sales"].sum().reset_index()
+
+    # Convert monthly period to a real timestamp (month start)
+    monthly["ds"] = monthly["month"].dt.to_timestamp()
+
+    monthly = monthly.drop(columns=["month"])
+    monthly = monthly.rename(columns={"Sales": "y"})
+
+    return monthly
+
+
+
+def forecast_sales_prophet(df, periods=6):
+    prophet_df = prepare_forecast_data(df)
+
+    model = Prophet()
+    model.fit(prophet_df)
+
+    # Use month start frequency to align with our ds timestamps
+    future = model.make_future_dataframe(periods=periods, freq="MS")
+    forecast = model.predict(future)
+
+    # Keep only relevant columns
+    return forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]]
+
+
+# ============================================================
+# Anomly Detection
+# ============================================================
+
+def detect_anomalies(df, forecast):
+    # Make copies so we don't mutate inputs
+    df = df.copy()
+    forecast = forecast.copy()
+
+    # Ensure 'ds' is datetime on BOTH dataframes
+    df["ds"] = pd.to_datetime(df["ds"])
+    forecast["ds"] = pd.to_datetime(forecast["ds"])
+
+    # Merge on aligned datetime key
+    merged = df.merge(
+        forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]],
+        on="ds",
+        how="left"
+    )
+
+    # Flag anomalies where actual is outside prediction interval
+    merged["anomaly"] = (
+        (merged["y"] < merged["yhat_lower"]) |
+        (merged["y"] > merged["yhat_upper"])
+    )
+
+    anomalies = merged[merged["anomaly"]]
+
+    return anomalies, merged
 
 
 # ============================================================
